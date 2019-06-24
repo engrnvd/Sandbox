@@ -14,10 +14,16 @@ var commonEndpointOptions = {
 };
 jsPlumb.bind("ready", function () {
     jsPlumb.setContainer('container');
-    jsPlumb.draggable(['window1', 'window2'], {
+    jsPlumb.draggable(['window1', 'window2', 'window3'], {
         containment: true,
         grid: [10, 10]
     });
+
+    jsPlumb.addEndpoint('window1', {
+        isSource: true,
+        anchor: [0.25, 1, 0, 1],
+        connectorOverlays: [commonOverlay]
+    }, commonEndpointOptions);
 
     jsPlumb.addEndpoint('window1', {
         isSource: true,
@@ -26,6 +32,12 @@ jsPlumb.bind("ready", function () {
     }, commonEndpointOptions);
 
     jsPlumb.addEndpoint('window2', {
+        isTarget: true,
+        anchor: 'Left',
+        connectorOverlays: [commonOverlay]
+    }, commonEndpointOptions);
+
+    jsPlumb.addEndpoint('window3', {
         isTarget: true,
         anchor: 'Left',
         connectorOverlays: [commonOverlay]

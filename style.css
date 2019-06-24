@@ -9,8 +9,8 @@
 
 .draggable {
     position: absolute; /*jsplumb requirement*/
-    width: 300px;
-    height: 200px;
+    width: 250px;
+    height: 150px;
     cursor: move;
     overflow: hidden;
     border-radius: 0.5em;
@@ -22,11 +22,11 @@
     color: white;
     text-align: center;
     margin: 0;
-    padding: 1.5em 1em;
+    padding: 0.5em;
 }
 
 .draggable .body {
-    padding: 1em;
+    padding: 0.5em;
 }
 
 .draggable .body p {
@@ -34,13 +34,18 @@
 }
 
 #window1 {
-    left: 100px;
-    top: 100px;
+    left: 10px;
+    top: 10px;
 }
 
 #window2 {
-    left: 600px;
-    top: 200px;
+    left: 400px;
+    top: 100px;
+}
+
+#window3 {
+    left: 100px;
+    top: 300px;
 }
 
 .jtk-drag-select * { /*jsplumb requirement*/
