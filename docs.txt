@@ -1,0 +1,2 @@
+Q: drag event for the widget?
+Q: using custom css for endpoints?
