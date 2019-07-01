@@ -1,20 +1,53 @@
-var commonOverlay = ["Arrow", {foldback: 1, width: 10, length: 15}];
-var commonEndpointOptions = {
-    endpoint: ["Rectangle", {
-        width: 10,
-        height: 10,
-        fill: '#00b8ff'
-    }],
-    paintStyle: {strokeWidth: 5, stroke: '#00b8ff'},
-    hoverPaintStyle: {strokeWidth: 5, stroke: '#870000'},
-    connector: ["Flowchart", {
-        stub: 30,
-        alwaysRespectStubs: true,
-        gap: 0,
-        midpoint: 0.25,
-        cornerRadius: 5
-    }]
+var overlay = ["Arrow", {
+    foldback: 1,
+    width: 10,
+    length: 15
+}];
+var endpoint = ["Rectangle", {
+    width: 30,
+    height: 30,
+}];
+
+var endpointStyle = {
+    fill: "#00b8ff",
+    outlineStroke: "black",
+    outlineWidth: 4
 };
+
+var endpointHoverStyle = {
+    fill: "green",
+    outlineStroke: "red",
+    outlineWidth: 6
+};
+
+var connectorStyle = {
+    strokeWidth: 5,
+    stroke: 'red'
+};
+
+var connectorHoverStyle = {
+    strokeWidth: 5,
+    stroke: 'black'
+};
+
+var connector = ["Flowchart", {
+    stub: 30,
+    alwaysRespectStubs: true,
+    gap: 0,
+    midpoint: 0.25,
+    cornerRadius: 5
+}];
+
+var commonEndpoint = {
+    endpoint: endpoint,
+    paintStyle: endpointStyle,
+    hoverPaintStyle: endpointHoverStyle,
+    connector: connector,
+    connectorStyle: connectorStyle,
+    connectorHoverStyle: connectorHoverStyle,
+    connectorOverlays: [overlay],
+};
+
 jsPlumb.bind("ready", function () {
     jsPlumb.setContainer('container');
     jsPlumb.draggable(['window1', 'window2', 'window3'], {
@@ -35,31 +68,28 @@ jsPlumb.bind("ready", function () {
     jsPlumb.addEndpoint('window1', {
         isSource: true,
         anchor: [0.25, 1, 0, 1],
-        connectorOverlays: [commonOverlay]
-    }, commonEndpointOptions);
-
-    jsPlumb.addEndpoint('window1', {
-        isSource: true,
-        anchor: [1, 0.75, 1, 0],
-        connectorOverlays: [commonOverlay]
-    }, commonEndpointOptions);
+    }, commonEndpoint);
 
     jsPlumb.addEndpoint('window2', {
         isTarget: true,
         anchor: 'Left',
-        connectorOverlays: [commonOverlay]
-    }, commonEndpointOptions);
+    }, commonEndpoint);
 
     jsPlumb.addEndpoint('window3', {
         isTarget: true,
         anchor: 'Left',
-        connectorOverlays: [commonOverlay]
-    }, commonEndpointOptions);
+    }, commonEndpoint);
 
     jsPlumb.connect({
         source: 'window1',
         target: 'window2',
-        anchors: [[1, 0.75, 1, 0], "Left"],
-        overlays: [commonOverlay]
-    }, commonEndpointOptions);
+        anchors: [[0.25, 1, 0, 1], "Left"],
+        endpoint: endpoint,
+        endpointStyle: endpointStyle,
+        endpointHoverStyle: endpointHoverStyle,
+        connector: connector,
+        paintStyle: connectorStyle,
+        hoverPaintStyle: connectorHoverStyle,
+        overlays: [overlay]
+    });
 });
