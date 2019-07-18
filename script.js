@@ -52,7 +52,13 @@ jsPlumb.bind("ready", function () {
     jsPlumb.setContainer('container');
     jsPlumb.draggable(['window1', 'window2', 'window3'], {
         containment: true,
-        grid: [10, 10]
+        grid: [10, 10],
+        start: function (params) {
+            console.log('start', params);
+        },
+        stop: function (params) {
+            console.log('drop', params);
+        }
     });
 
     jsPlumb.bind("connection", function (info, originalEvent) {
