@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .item {
+            float: left;
+            padding: 2.5em;
+            width: 3em;
+            height: 2em;
+            text-align: center;
+        }
+
+        .clear-fix {
+            clear: both;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+    <script>
+        function changeColorTone(color, amount) {
+
+            var usePound = false;
+
+            if (color[0] == "#") {
+                color = color.slice(1);
+                usePound = true;
+            }
+
+            var num = parseInt(color, 16);
+
+            var r = (num >> 16) + amount;
+
+            if (r > 255) r = 255;
+            else if (r < 0) r = 0;
+
+            var b = ((num >> 8) & 0x00FF) + amount;
+
+            if (b > 255) b = 255;
+            else if (b < 0) b = 0;
+
+            var g = (num & 0x0000FF) + amount;
+
+            if (g > 255) g = 255;
+            else if (g < 0) g = 0;
+
+            return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
+
+        }
+
+        Array.prototype.pickRandom = Array.prototype.pickRandom || function () {
+            return this[Math.round(Math.random() * (this.length - 1))];
+        };
+
+        angular.module('myApp', []).controller('MainController', function ($scope) {
+            $scope.colorsInDb = [];
+            $scope.baseColors = ['#913ccd', '#f15f74', '#f76d3c', '#f7d842', '#2ca8c2', '#98cb4a', '#839098', '#5481e6'];
+            $scope.generatedColors = [];
+
+            // create an array for tones
+            var tones = $scope.tones = [];
+            for (var tone = -90; tone <= 90; tone += 15) {
+                tones.push(tone);
+            }
+
+            for (var i = 0; i < 200; i++) {
+                // pick a random color from base colors
+                // adjust it's tone randomly
+                // check if it exists in the db colors
+                var color;
+                var tries = 0;
+                var maxCombinations = $scope.baseColors.length * $scope.tones.length;
+                do {
+                    color = changeColorTone($scope.baseColors.pickRandom(), tones.pickRandom());
+                    tries ++;
+                } while ($scope.colorsInDb.includes(color) && tries < maxCombinations);
+
+                $scope.generatedColors.push(color);
+                $scope.colorsInDb.push(color);
+            }
+        });
+    </script>
+
+</head>
+<body ng-app="myApp" ng-controller="MainController">
+
+<pre>colorsInDb: {{colorsInDb | json}}</pre>
+<pre>baseColors: {{baseColors | json}}</pre>
+<pre>tones: {{tones | json}}</pre>
+
+<div class="main">
+    <h3>Base Color</h3>
+    <div class="item" ng-repeat="color in baseColors" ng-attr-style="background: {{color}}">{{color}}</div>
+    <div class="clear-fix"></div>
+    <h3>Generated Colors</h3>
+    <div class="item" ng-repeat="color in generatedColors track by $index" ng-attr-style="background: {{color}}">{{color}}</div>
+</div>
+
+</body>
+</html>
