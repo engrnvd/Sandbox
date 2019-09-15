@@ -1,23 +1,13 @@
-var app = new Vue({
+let app = new Vue({
     el: "#app",
     data: {
-        form: {name: 'Naveed'},
+        list: [1, 2]
     },
-    computed: {
-        reverse () {
-            return this.form.name.split('').reverse().join('')
+    methods: {
+        addItem() {
+            // this.list.push(3); // reactive
+            // this.list[2] = 3; // not reactive
+            Vue.set(this.list, 2, 3); // reactive
         }
-    },
-    watch: {
-        'form.name': function (value) {
-            console.log(`name changed to: ${value}`);
-        }
-    },
-    mounted: function () {
-        console.log(`mounted: `);
-        setTimeout(() => {
-            this.form.name = "Masood";
-            console.log(this.form);
-        }, 1500);
     }
 });
