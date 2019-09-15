@@ -1,7 +1,12 @@
 var app = new Vue({
     el: "#app",
     data: {
-        form: {name: null},
+        form: {name: 'Naveed'},
+    },
+    computed: {
+        reverse () {
+            return this.form.name.split('').reverse().join('')
+        }
     },
     watch: {
         'form.name': function (value) {
@@ -10,7 +15,7 @@ var app = new Vue({
     },
     mounted: function () {
         console.log(`mounted: `);
-        setTimeout(() =>  {
+        setTimeout(() => {
             this.form.name = "Masood";
             console.log(this.form);
         }, 1500);
