@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        #container {
+            width: 500px;
+            height: 500px;
+            margin: 100px;
+            /*border: 1px solid;*/
+            position: relative; /*jsplumb requirement*/
+            font-family: Calibri, SansSerif, Serif;
+            background: linear-gradient(#ddd, rgba(255, 255, 255, 0) 1px), linear-gradient(90deg, #ddd, rgba(255, 255, 255, 0) 1px);
+            background-size: 50px 50px;
+            background-position: 0 0;
+        }
+
+        .child {
+            border: 1px solid black;
+            width: 100px;
+            height: 100px;
+        }
+
+        body {
+            overflow: hidden;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+
+<div id="container">
+
+</div>
+
+<script>
+    var service = {
+        zoom: {
+            scale: 1,
+            delta: 0.1,
+            min: 0.3,
+            max: 2.1,
+        }
+    };
+
+    var el = document.getElementById('container');
+    el.onclick = function (event) {
+        console.log(event);
+        var rect = el.getBoundingClientRect();
+        var pos = {
+            x: event.pageX - rect.x,
+            y: event.pageY - rect.y,
+        };
+
+        console.log(pos);
+
+        var child = document.createElement('div');
+        child.style.top = pos.y + 'px';
+        child.style.left = pos.x + 'px';
+
+        if (service.zoom.scale != 1) {
+            child.style.top = pos.y / service.zoom.scale + 'px';
+            child.style.left = pos.x / service.zoom.scale + 'px';
+        }
+        child.style.position = 'absolute';
+        child.classList.add('child');
+        el.appendChild(child);
+    };
+
+    window.addEventListener("wheel", function (event) {
+        if (event.deltaY > 0) setZoom(service.zoom.scale - service.zoom.delta, event);
+        else setZoom(service.zoom.scale + service.zoom.delta, event);
+    });
+
+    function setZoom(scale, event) {
+        if (scale < service.zoom.min || scale > service.zoom.max) return;
+        var el = document.getElementById('container');
+        var rect = el.getBoundingClientRect();
+        var transformOrigin = [Math.round(rect.width / 2), Math.round(rect.height / 2)];
+
+        if (event) {
+            // find current location on screen
+            var x = event.pageX - rect.left;
+            var y = event.pageY - rect.top;
+
+            if (service.zoom.scale != 1) {
+                x = x / service.zoom.scale;
+                y = y / service.zoom.scale;
+            }
+
+            console.log(event, service.zoom.scale, event.deltaY);
+
+            transformOrigin = [x, y];
+        }
+
+        var p = ["webkit", "moz", "ms", "o"],
+            s = "scale(" + scale + ")",
+            oString = transformOrigin[0] + "px " + transformOrigin[1] + "px";
+
+        for (var i = 0; i < p.length; i++) {
+            el.style[p[i] + "TransformOrigin"] = oString;
+            el.style[p[i] + "Transform"] = s;
+        }
+
+        el.style["transformOrigin"] = oString;
+        el.style["transform"] = s;
+
+        service.zoom.scale = scale;
+    }
+</script>
+</body>
+</html>
