@@ -3,12 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Vue Sandbox</title>
+    <style>
+        .todo .completed {
+            text-decoration: line-through;
+        }
+    </style>
 </head>
 <body>
 
 <div id="app">
-    <p>list: {{ list }}</p>
-    <p><button @click="addItem()">Add</button></p>
+    <ul class="todos">
+        <li class="todo" v-for="item in remainingItems" :key="item.id">
+            <todo-item :item="item" @removed="todos.splice(index, 1)"></todo-item>
+        </li>
+        <li class="todo" v-for="item in completedItems" :key="item.id">
+            <todo-item :item="item" @removed="todos.splice(index2, 1)"></todo-item>
+        </li>
+    </ul>
 </div>
 
 <!-- development version, includes helpful console warnings -->
