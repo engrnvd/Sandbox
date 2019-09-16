@@ -5,6 +5,9 @@
     border: 1px solid;
     position: relative; /*jsplumb requirement*/
     font-family: Calibri, SansSerif, Serif;
+    background: linear-gradient(#dceefd, rgba(255, 255, 255, 0) 1px), linear-gradient(90deg, #dceefd, rgba(255, 255, 255, 0) 1px);
+    background-size: 50px 50px;
+    background-position: 0 0;
 }
 
 .draggable {

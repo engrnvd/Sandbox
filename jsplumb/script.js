@@ -48,6 +48,15 @@ var commonEndpoint = {
     connectorOverlays: [overlay],
 };
 
+var service = {
+    zoom: {
+        scale: 1,
+        delta: 0.03,
+        min: 0.3,
+        max: 2.1,
+    }
+};
+
 jsPlumb.bind("ready", function () {
     jsPlumb.setContainer('container');
     jsPlumb.draggable(['window1', 'window2', 'window3'], {
@@ -59,6 +68,11 @@ jsPlumb.bind("ready", function () {
         stop: function (params) {
             console.log('drop', params);
         }
+    });
+
+    window.addEventListener("wheel", function (event) {
+        if (event.deltaY < 0) setZoom(service.zoom.scale + service.zoom.delta, event);
+        else setZoom(service.zoom.scale - service.zoom.delta, event);
     });
 
     jsPlumb.bind("connection", function (info, originalEvent) {
@@ -99,3 +113,47 @@ jsPlumb.bind("ready", function () {
         overlays: [overlay]
     });
 });
+
+function setZoom(scale, event) {
+    if (scale < service.zoom.min || scale > service.zoom.max) return;
+    var el = jsPlumb.getContainer();
+    var rect = el.getBoundingClientRect();
+    var transformOrigin = [Math.round(rect.width / 2), Math.round(rect.height / 2)];
+
+    if (event) {
+        // find current location on screen
+        var xScreen = event.pageX - rect.left;
+        var yScreen = event.pageY - rect.top;
+
+
+        // find current location on the container at the current scale
+        service.zoom.xOnContainer = service.zoom.xOnContainer + ((xScreen - service.zoom.xOnScreen) / service.zoom.scale);
+        service.zoom.yOnContainer = service.zoom.yOnContainer + ((yScreen - service.zoom.yOnScreen) / service.zoom.scale);
+
+        // determine the location on the screen at the new scale
+        var xNew = (xScreen - service.zoom.xOnContainer) / scale;
+        var yNew = (yScreen - service.zoom.yOnContainer) / scale;
+
+        // save the current screen location
+        service.zoom.xOnScreen = xScreen;
+        service.zoom.yOnScreen = yScreen;
+
+        transformOrigin = [xNew, yNew];
+    }
+
+    var p = ["webkit", "moz", "ms", "o"],
+        // s = "scale(" + scale + ")" + ' translate(' + xScreen + 'px, ' + yScreen + 'px' + ')',
+        s = "scale(" + scale + ")",
+        oString = transformOrigin[0] + "px " + transformOrigin[1] + "px";
+
+    for (var i = 0; i < p.length; i++) {
+        // el.style[p[i] + "TransformOrigin"] = oString;
+        el.style[p[i] + "Transform"] = s;
+    }
+
+    // el.style["transformOrigin"] = oString;
+    el.style["transform"] = s;
+
+    service.zoom.scale = scale;
+    jsPlumb.setZoom(scale);
+}
