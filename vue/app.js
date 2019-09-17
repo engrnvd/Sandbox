@@ -1,6 +1,30 @@
+Vue.component('am-search', {
+    props: ['value'],
+    template: `
+    <input
+      v-bind:value="value"
+      v-on:input="$emit('input', $event.target.value)"
+    >
+  `
+});
+
+Vue.component('am-checkbox', {
+    template: `<span class="am-checkbox" @click="toggle()">
+            <i class="fas fa-check-square" v-if="value"></i>
+            <i class="far fa-square" v-else></i>
+        </span>`,
+    props: ['value'],
+    methods: {
+        toggle() {
+            this.value = !this.value;
+            this.$emit('input', this.value);
+        }
+    }
+});
+
 Vue.component('todo-item', {
     template: `<div :class="{completed: item.done}">
-        <input class='checkbox' type="checkbox" v-model="item.done">
+        <am-checkbox v-model="item.done"></am-checkbox>
         <label><input class="todo-text-input" type="text" v-model="item.title"></label>  
         <a class="delete-btn" href @click.prevent="$emit('removed')">&times;</a>
     </div>`,
@@ -23,7 +47,9 @@ let app = new Vue({
             {id: 9, title: 'Another todo 6', done: 0},
             {id: 10, title: 'Another todo 7', done: 0},
         ],
-        showCompleted: true
+        showCompleted: true,
+        test: true,
+        searchText: ""
     },
     computed: {
         remainingItems() {

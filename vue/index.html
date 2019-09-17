@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Vue Sandbox</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
     <style>
         body, body * {
             font-family: "Calibri Light", SansSerif, Serif, serif;
@@ -69,11 +70,16 @@
             color: #000;
             font-weight: bold;
         }
+
+        .am-checkbox {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
 <div id="app">
+    <p><am-search v-model="searchText"></am-search></p>
     <ul class="todos">
         <li class="todo" v-for="(item, index) in remainingItems" :key="item.id">
             <todo-item :item="item" @removed="remove(item)"></todo-item>
