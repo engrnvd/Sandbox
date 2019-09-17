@@ -22,7 +22,8 @@ let app = new Vue({
             {id: 8, title: 'Another todo 5', done: 0},
             {id: 9, title: 'Another todo 6', done: 0},
             {id: 10, title: 'Another todo 7', done: 0},
-        ]
+        ],
+        showCompleted: true
     },
     computed: {
         remainingItems() {
