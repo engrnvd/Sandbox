@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            width: 90vw;
+            min-height: 100vh;
+            background-color: #ddd;
+        }
+    </style>
+    <script type="text/javascript">
+        (function (window, document, script) {
+            var h = document.getElementsByTagName(script)[0], j = document.createElement(script);
+            j.async = true;
+            j.src = 'http://localhost/sandbox/web-widget/appmakers-chat-widget.js';
+            h.parentNode.insertBefore(j, h);
+        })(window, document, 'script');
+    </script>
+</head>
+<body>
+<h1>My Awesome website</h1>
+<div id="app-makers-chat"></div>
+</body>
+</html>

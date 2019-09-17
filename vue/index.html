@@ -3,12 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Vue Sandbox</title>
+    <style>
+        body {
+            background-color: cadetblue;
+            width: 100%;
+            min-height: 100vh;
+            padding: 0;
+        }
+        p, input, textarea {
+            width: 100%;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
 
 <div id="app">
     <p>list: {{ list }}</p>
     <p><button @click="addItem()">Add</button></p>
+    <p><input type="text" placeholder="Email"></p>
+    <p><textarea name="" id="" cols="30" rows="10"></textarea></p>
 </div>
 
 <!-- development version, includes helpful console warnings -->
