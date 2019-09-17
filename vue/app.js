@@ -2,8 +2,8 @@ Vue.component('am-search', {
     props: ['value'],
     template: `
     <input
-      v-bind:value="value"
-      v-on:input="$emit('input', $event.target.value)"
+      :value="value"
+      @input="$emit('input', $event.target.value)"
     >
   `
 });
@@ -35,16 +35,16 @@ let app = new Vue({
     el: "#app",
     data: {
         todos: [
-            {id: 1, title: 'Read Essentials', done: 1},
-            {id: 2, title: 'Read APIs', done: 0},
-            {id: 3, title: 'Read Style Guide', done: 0},
-            {id: 4, title: 'Another todo', done: 0},
-            {id: 5, title: 'Another todo 2', done: 0},
-            {id: 6, title: 'Another todo 3', done: 0},
-            {id: 7, title: 'Another todo 4', done: 0},
-            {id: 8, title: 'Another todo 5', done: 0},
-            {id: 9, title: 'Another todo 6', done: 0},
-            {id: 10, title: 'Another todo 7', done: 0},
+            {id: 1, title: 'Read Essentials', done: true},
+            {id: 2, title: 'Read APIs', done: false},
+            {id: 3, title: 'Read Style Guide', done: false},
+            {id: 4, title: 'Another todo', done: false},
+            {id: 5, title: 'Another todo 2', done: false},
+            {id: 6, title: 'Another todo 3', done: false},
+            {id: 7, title: 'Another todo 4', done: false},
+            {id: 8, title: 'Another todo 5', done: false},
+            {id: 9, title: 'Another todo 6', done: false},
+            {id: 10, title: 'Another todo 7', done: false},
         ],
         showCompleted: true,
         test: true,
