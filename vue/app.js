@@ -1,10 +1,8 @@
 Vue.component('todo-item', {
     template: `<div :class="{completed: item.done}">
-        <label>
-            {{item.title}} 
-            <input type="checkbox" v-model="item.done">
-        </label>  
-        <a href @click.prevent="$emit('removed')">x</a>
+        <input class='checkbox' type="checkbox" v-model="item.done">
+        <label>{{item.title}}</label>  
+        <a class="delete-btn" href @click.prevent="$emit('removed')">&times;</a>
     </div>`,
     props: ['item'],
     methods: {}
