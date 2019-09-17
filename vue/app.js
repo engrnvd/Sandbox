@@ -1,15 +1,13 @@
 Vue.component('todo-item', {
     template: `<div :class="{completed: item.done}">
-        <span>{{item.title}}</span> 
-        <input type="checkbox" v-model="item.done"> 
-        <a href @click.prevent="remove()">x</a>
+        <label>
+            {{item.title}} 
+            <input type="checkbox" v-model="item.done">
+        </label>  
+        <a href @click.prevent="$emit('removed')">x</a>
     </div>`,
     props: ['item'],
-    methods: {
-        remove: function () {
-            this.$emit('removed');
-        }
-    }
+    methods: {}
 });
 
 let app = new Vue({
@@ -19,14 +17,26 @@ let app = new Vue({
             {id: 1, title: 'Read Essentials', done: 1},
             {id: 2, title: 'Read APIs', done: 0},
             {id: 3, title: 'Read Style Guide', done: 0},
+            {id: 4, title: 'Another todo', done: 0},
+            {id: 5, title: 'Another todo 2', done: 0},
+            {id: 6, title: 'Another todo 3', done: 0},
+            {id: 7, title: 'Another todo 4', done: 0},
+            {id: 8, title: 'Another todo 5', done: 0},
+            {id: 9, title: 'Another todo 6', done: 0},
+            {id: 10, title: 'Another todo 7', done: 0},
         ]
     },
     computed: {
-        remainingItems: function () {
+        remainingItems() {
             return this.todos.filter(item => !item.done);
         },
-        completedItems: function () {
+        completedItems() {
             return this.todos.filter(item => item.done);
+        },
+    },
+    methods: {
+        remove(item) {
+            this.todos = _.reject(this.todos, i => item.id === i.id);
         },
     }
 });

@@ -13,17 +13,19 @@
 
 <div id="app">
     <ul class="todos">
-        <li class="todo" v-for="item in remainingItems" :key="item.id">
-            <todo-item :item="item" @removed="todos.splice(index, 1)"></todo-item>
+        <li class="todo" v-for="(item, index) in remainingItems" :key="item.id">
+            <todo-item :item="item" @removed="remove(item)"></todo-item>
         </li>
-        <li class="todo" v-for="item in completedItems" :key="item.id">
-            <todo-item :item="item" @removed="todos.splice(index2, 1)"></todo-item>
+        <li class="separator" v-if="remainingItems.length && completedItems.length"></li>
+        <li class="todo" v-for="(item, index) in completedItems" :key="item.id">
+            <todo-item :item="item" @removed="remove(item)"></todo-item>
         </li>
     </ul>
 </div>
 
 <!-- development version, includes helpful console warnings -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
