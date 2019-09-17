@@ -79,7 +79,7 @@
 <body>
 
 <div id="app">
-    <p><am-search v-model="searchText"></am-search></p>
+    <p><am-search v-model="searchText" /></p>
     <ul class="todos">
         <li class="todo" v-for="(item, index) in remainingItems" :key="item.id">
             <todo-item :item="item" @removed="remove(item)"></todo-item>

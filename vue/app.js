@@ -24,7 +24,7 @@ Vue.component('am-checkbox', {
 
 Vue.component('todo-item', {
     template: `<div :class="{completed: item.done}">
-        <am-checkbox v-model="item.done"></am-checkbox>
+        <am-checkbox v-model="item.done" />
         <label><input class="todo-text-input" type="text" v-model="item.title"></label>  
         <a class="delete-btn" href @click.prevent="$emit('removed')">&times;</a>
     </div>`,
