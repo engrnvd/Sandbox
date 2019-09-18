@@ -1,0 +1,78 @@
+.slide-fade-enter-active, .slide-fade-leave-active {
+    transition: all .3s ease;
+}
+
+.slide-fade-enter, .slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+
+body, body * {
+    font-family: "Calibri Light", SansSerif, Serif, serif;
+    color: #222;
+}
+
+.todos li {
+    padding: 0.25em 1em;
+    font-size: 2em;
+}
+
+.todo label {
+    display: inline-block;
+    min-width: 7.5em;
+}
+
+.todo-text-input, .todo-text-input:focus {
+    display: inline-block;
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 1em;
+}
+
+.todo-text-input:focus {
+    border-bottom: 1px solid #666;
+}
+
+li.separator {
+    border-bottom: 1px solid #ddd;
+    margin: 0.25em 0 0.25em 1em;
+    padding: 0;
+    width: 10em;
+}
+
+.todo .completed .todo-text-input {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.checkbox {
+    width: 2em;
+    height: 2em;
+    margin: 0 1em 0 0;
+}
+
+.todos {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.delete-btn, .delete-btn:visited, .delete-btn:hover {
+    text-decoration: none;
+    color: darkred;
+    font-weight: bold;
+}
+
+.completed-label {
+    text-decoration: none;
+}
+
+.completed-label:hover {
+    color: #000;
+    font-weight: bold;
+}
+
+.am-checkbox {
+    cursor: pointer;
+}
