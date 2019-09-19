@@ -1,10 +1,10 @@
 Vue.component('am-search', {
     props: ['value'],
     template: `
-    <input
-      :value="value"
-      @input="$emit('input', $event.target.value)"
-    >
+    <div class="am-search">
+        <input :value="value" @input="$emit('input', $event.target.value)">
+        <button><i class="fas fa-search"></i></button>
+    </div>
   `
 });
 
@@ -34,7 +34,11 @@ Vue.component('todo-item', {
 Vue.component('todo-list', {
     template: `
     <div class="todo-list">
-        <p class="todo-search"><am-search v-model="searchText" /></p>
+        <p class="todo-search">
+            <slot name="search" v-bind:search="search">
+                <input type="text" v-model="search.text">
+            </slot>
+        </p>
         <ul class="todo-items">
             <li class="todo" v-for="(item, index) in remainingItems" :key="item.id">
                 <todo-item :item="item" @removed="remove(item)"></todo-item>
@@ -58,7 +62,7 @@ Vue.component('todo-list', {
     data() {
         return {
             showCompleted: true,
-            searchText: ""
+            search: {text: ''}
         }
     },
     computed: {
@@ -69,7 +73,7 @@ Vue.component('todo-list', {
             return this.filtered.filter(item => item.done);
         },
         filtered() {
-            return this.items.filter(item => item.title.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1);
+            return this.items.filter(item => item.title.toLowerCase().indexOf(this.search.text.toLowerCase()) !== -1);
         }
     },
     methods: {

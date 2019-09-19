@@ -9,11 +9,15 @@
 <body>
 
 <div id="app">
-    <todo-list :items="items"></todo-list>
+    <todo-list :items="items">
+        <template #search="{search}">
+            <am-search v-model="search.text"></am-search>
+        </template>
+    </todo-list>
 </div>
 
 <!-- development version, includes helpful console warnings -->
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
 <script src="app.js"></script>
 </body>
