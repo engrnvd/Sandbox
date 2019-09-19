@@ -1,10 +1,12 @@
-.slide-fade-enter-active, .slide-fade-leave-active {
-    transition: all .3s ease;
+.todo-search {
+    margin-left: 2em;
+    width: 22.5em;
 }
 
-.slide-fade-enter, .slide-fade-leave-to {
-    transform: translateX(10px);
-    opacity: 0;
+.todo-search input {
+    display: inline-block;
+    width: 100%;
+    font-size: 1em;
 }
 
 body, body * {

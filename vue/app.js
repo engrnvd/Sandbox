@@ -34,7 +34,7 @@ Vue.component('todo-item', {
 Vue.component('todo-list', {
     template: `
     <div class="todo-list">
-        <p><am-search v-model="searchText" /></p>
+        <p class="todo-search"><am-search v-model="searchText" /></p>
         <ul class="todo-items">
             <li class="todo" v-for="(item, index) in remainingItems" :key="item.id">
                 <todo-item :item="item" @removed="remove(item)"></todo-item>
@@ -55,7 +55,7 @@ Vue.component('todo-list', {
         </ul>
     </div>`,
     props: ['items'],
-    data () {
+    data() {
         return {
             showCompleted: true,
             searchText: ""
@@ -63,11 +63,14 @@ Vue.component('todo-list', {
     },
     computed: {
         remainingItems() {
-            return this.items.filter(item => !item.done);
+            return this.filtered.filter(item => !item.done);
         },
         completedItems() {
-            return this.items.filter(item => item.done);
+            return this.filtered.filter(item => item.done);
         },
+        filtered() {
+            return this.items.filter(item => item.title.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1);
+        }
     },
     methods: {
         remove(item) {
