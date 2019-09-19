@@ -31,10 +31,55 @@ Vue.component('todo-item', {
     methods: {}
 });
 
+Vue.component('todo-list', {
+    template: `
+    <div class="todo-list">
+        <p><am-search v-model="searchText" /></p>
+        <ul class="todo-items">
+            <li class="todo" v-for="(item, index) in remainingItems" :key="item.id">
+                <todo-item :item="item" @removed="remove(item)"></todo-item>
+            </li>
+            <li class="separator" v-if="remainingItems.length && completedItems.length"></li>
+            <li v-if="completedItems.length">
+                <a href class="completed-label" @click.prevent="showCompleted = !showCompleted">
+                    <span v-if="showCompleted">&#9660;</span>
+                    <span v-else>&#x25BA;</span>
+                    {{ completedItems.length }} Completed items
+                </a>
+            </li>
+            <template v-if="showCompleted">
+                <li class="todo" v-for="(item, index) in completedItems" :key="item.id">
+                    <todo-item :item="item" @removed="remove(item)"></todo-item>
+                </li>
+            </template>
+        </ul>
+    </div>`,
+    props: ['items'],
+    data () {
+        return {
+            showCompleted: true,
+            searchText: ""
+        }
+    },
+    computed: {
+        remainingItems() {
+            return this.items.filter(item => !item.done);
+        },
+        completedItems() {
+            return this.items.filter(item => item.done);
+        },
+    },
+    methods: {
+        remove(item) {
+            this.items = _.reject(this.items, i => item.id === i.id);
+        },
+    }
+});
+
 let app = new Vue({
     el: "#app",
     data: {
-        todos: [
+        items: [
             {id: 1, title: 'Read Essentials', done: true},
             {id: 2, title: 'Read APIs', done: false},
             {id: 3, title: 'Read Style Guide', done: false},
@@ -46,21 +91,5 @@ let app = new Vue({
             {id: 9, title: 'Another todo 6', done: false},
             {id: 10, title: 'Another todo 7', done: false},
         ],
-        showCompleted: true,
-        test: true,
-        searchText: ""
     },
-    computed: {
-        remainingItems() {
-            return this.todos.filter(item => !item.done);
-        },
-        completedItems() {
-            return this.todos.filter(item => item.done);
-        },
-    },
-    methods: {
-        remove(item) {
-            this.todos = _.reject(this.todos, i => item.id === i.id);
-        },
-    }
 });

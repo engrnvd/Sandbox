@@ -9,25 +9,7 @@
 <body>
 
 <div id="app">
-    <p><am-search v-model="searchText" /></p>
-    <ul class="todos">
-        <li class="todo" v-for="(item, index) in remainingItems" :key="item.id">
-            <todo-item :item="item" @removed="remove(item)"></todo-item>
-        </li>
-        <li class="separator" v-if="remainingItems.length && completedItems.length"></li>
-        <li v-if="completedItems.length">
-            <a href class="completed-label" @click.prevent="showCompleted = !showCompleted">
-                <span v-if="showCompleted">&#9660;</span>
-                <span v-else>&#x25BA;</span>
-                {{ completedItems.length }} Completed items
-            </a>
-        </li>
-        <template v-if="showCompleted">
-            <li class="todo" v-for="(item, index) in completedItems" :key="item.id">
-                <todo-item :item="item" @removed="remove(item)"></todo-item>
-            </li>
-        </template>
-    </ul>
+    <todo-list :items="items"></todo-list>
 </div>
 
 <!-- development version, includes helpful console warnings -->
