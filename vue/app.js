@@ -41,7 +41,7 @@ Vue.component('todo-list', {
         </p>
         <ul class="todo-items">
             <li class="todo" v-for="(item, index) in remainingItems" :key="item.id">
-                <todo-item :item="item" @removed="remove(item)"></todo-item>
+                <slot name="todo-item" :item="item">{{ item.title }}</slot>
             </li>
             <li class="separator" v-if="remainingItems.length && completedItems.length"></li>
             <li v-if="completedItems.length">
@@ -53,7 +53,7 @@ Vue.component('todo-list', {
             </li>
             <template v-if="showCompleted">
                 <li class="todo" v-for="(item, index) in completedItems" :key="item.id">
-                    <todo-item :item="item" @removed="remove(item)"></todo-item>
+                    <slot name="todo-item" :item="item">{{ item.title }}</slot>
                 </li>
             </template>
         </ul>
@@ -75,11 +75,6 @@ Vue.component('todo-list', {
         filtered() {
             return this.items.filter(item => item.title.toLowerCase().indexOf(this.search.text.toLowerCase()) !== -1);
         }
-    },
-    methods: {
-        remove(item) {
-            this.items = _.reject(this.items, i => item.id === i.id);
-        },
     }
 });
 
@@ -99,4 +94,9 @@ let app = new Vue({
             {id: 10, title: 'Another todo 7', done: false},
         ],
     },
+    methods: {
+        remove(item) {
+            this.items = _.reject(this.items, i => item.id === i.id);
+        },
+    }
 });

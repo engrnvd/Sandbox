@@ -13,6 +13,10 @@
         <template #search="{search}">
             <am-search v-model="search.text"></am-search>
         </template>
+        <template #todo-item="{item}">
+            <todo-item :item="item" @removed="remove(item)"></todo-item>
+            <!--{{ item.title }} <i class="fa fa-check" @click="item.done = !item.done"></i>-->
+        </template>
     </todo-list>
 </div>
 
