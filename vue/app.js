@@ -31,6 +31,19 @@ Vue.component('todo-item', {
     methods: {}
 });
 
+Vue.component('animated-list', {
+    template: `
+    <transition-group 
+            name="list" 
+            enter-active-class="animated fadeIn"
+            leave-active-class="animated fadeOut list-leave-active"
+            tag="ul"
+            class="todo-items">
+                <slot></slot>
+        </transition-group>
+    `,
+});
+
 Vue.component('todo-list', {
     template: `
     <div class="todo-list">
@@ -39,10 +52,12 @@ Vue.component('todo-list', {
                 <input type="text" v-model="search.text">
             </slot>
         </p>
-        <ul class="todo-items">
+        <animated-list>
             <li class="todo" v-for="(item, index) in remainingItems" :key="item.id">
                 <slot name="todo-item" :item="item">{{ item.title }}</slot>
             </li>
+        </animated-list>
+        <ul class="todo-items">
             <li class="separator" v-if="remainingItems.length && completedItems.length"></li>
             <li v-if="completedItems.length">
                 <a href class="completed-label" @click.prevent="showCompleted = !showCompleted">
@@ -51,12 +66,12 @@ Vue.component('todo-list', {
                     {{ completedItems.length }} Completed items
                 </a>
             </li>
-            <template v-if="showCompleted">
-                <li class="todo" v-for="(item, index) in completedItems" :key="item.id">
-                    <slot name="todo-item" :item="item">{{ item.title }}</slot>
-                </li>
-            </template>
         </ul>
+        <animated-list v-if="showCompleted">
+            <li class="todo" v-for="(item, index) in completedItems" :key="item.id">
+                <slot name="todo-item" :item="item">{{ item.title }}</slot>
+            </li>
+        </animated-list>
     </div>`,
     props: ['items'],
     data() {

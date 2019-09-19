@@ -1,3 +1,13 @@
+.todo {
+    display: block;
+    transition: all 1s;
+}
+
+.list-leave-active {
+    /* the -leave-active transition class must apply a position: absolute declaration, in order to take it out of the layout flow, so the siblings can -move in to place around it */
+    position: absolute;
+}
+
 .todo-search {
     margin-left: 2em;
     width: 23em;
