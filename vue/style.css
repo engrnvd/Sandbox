@@ -5,7 +5,7 @@
 
 .transitioned {
     display: inline-block;
-    transition: all 0.5s;
+    transition: all 0.7s;
 }
 
 .collapse-enter-active, .collapse-leave-active {
@@ -24,7 +24,7 @@
 
 .todo {
     display: block;
-    transition: all 0.5s;
+    transition: all 1s;
 }
 
 .list-leave-active {
