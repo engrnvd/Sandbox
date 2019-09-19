@@ -14,7 +14,7 @@
 
 .todo {
     display: block;
-    transition: all 1s;
+    transition: all 0.5s;
 }
 
 .list-leave-active {
