@@ -67,11 +67,13 @@ Vue.component('todo-list', {
                 </a>
             </li>
         </ul>
-        <animated-list v-if="showCompleted">
-            <li class="todo" v-for="(item, index) in completedItems" :key="item.id">
-                <slot name="todo-item" :item="item">{{ item.title }}</slot>
-            </li>
-        </animated-list>
+        <transition name="collapse">
+            <animated-list v-if="showCompleted">
+                <li class="todo" v-for="(item, index) in completedItems" :key="item.id">
+                    <slot name="todo-item" :item="item">{{ item.title }}</slot>
+                </li>
+            </animated-list>
+        </transition>
     </div>`,
     props: ['items'],
     data() {
