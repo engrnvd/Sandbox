@@ -3,10 +3,11 @@
     width: 22.5em;
 }
 
-.todo-search input {
+.todo-search input, .todo-search input:focus {
     display: inline-block;
     width: 100%;
-    font-size: 1em;
+    font-size: 1.5em;
+    outline: none;
 }
 
 body, body * {
