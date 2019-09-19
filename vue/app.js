@@ -61,8 +61,7 @@ Vue.component('todo-list', {
             <li class="separator" v-if="remainingItems.length && completedItems.length"></li>
             <li v-if="completedItems.length">
                 <a href class="completed-label" @click.prevent="showCompleted = !showCompleted">
-                    <span v-if="showCompleted">&#9660;</span>
-                    <span v-else>&#x25BA;</span>
+                    <span :class="['transitioned', {'rotate-90-m': !showCompleted}]">&#9660;</span>
                     {{ completedItems.length }} Completed items
                 </a>
             </li>
