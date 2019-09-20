@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES2015 / ES6</title>
+</head>
+<body>
+<script>
+
+    // 1. shorthand properties
+    let name = "naveed", age = 30;
+    let obj = {name, age};
+    console.log("1: ", obj);
+
+    // 2. shorthand methods
+    let obj2 = {
+        name,
+        age,
+        greet() {
+            return `Hi, I am ${this.name}`
+        }
+    };
+    console.log('2: ', obj2.greet());
+
+    // 3. destructuring
+    let obj3 = {x: 1, y: 2, z: 3};
+    let {x, y} = obj3;
+    console.log(`3: ${x} - ${y}`);
+
+    // 3.1 custom variable names
+    let {x: a, y: b} = obj3;
+    console.log(`3.1: ${a} - ${b}`);
+
+    // 3.2 destructuring in functions
+    function testFn({x, y, z}) {
+        console.log(`3.2: ${x} - ${y} - ${z}`);
+    }
+    testFn(obj3);
+    testFn({error: "what?"}); // x,y,z will be undefined
+
+    // 3.2.1 destructuring in functions with custom variables
+    function testFn2({x: res, y: data, z: error}) {
+        console.log(`3.2: ${res} - ${data} - ${error}`);
+    }
+    testFn2(obj3);
+
+    // 3.2.2 destructuring in functions with custom variables and default values
+    function testFn3({x=2, y=4, z=6}) {
+        console.log(`3.2.2: ${x} - ${y} - ${z}`);
+    }
+    testFn3({x: 3});
+
+    // 3.2.3 destructuring in functions with custom variables and default values
+    function testFn4({x: res = 2, y: data = 4, z: error = 8}) {
+        console.log(`3.2.3: ${res} - ${data} - ${error}`);
+    }
+    testFn4({y: 3});
+
+</script>
+</body>
+</html>

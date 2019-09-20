@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES2015 / ES6</title>
+</head>
+<body>
+<script>
+    class User {
+        constructor(name) {
+            this.name = name;
+        }
+
+        get photo() {
+            return '/images/users/' + this.name.toLowerCase() + '.jpg'
+        }
+
+        set dob(value) {
+            if (Array.isArray(value)) {
+                this._dob = new Date(...value);
+                return;
+            }
+            this._dob = new Date(value)
+        }
+
+        get dob() {
+            return this._dob;
+        }
+
+        static makeUser(name, dob) {
+            let user = new User(name);
+            user.dob = dob;
+            return user;
+        }
+    }
+
+    let user = new User("Naveed");
+    user.dob = [1989, 7, 15, 0, 0, 0];
+    console.log(user.photo, user.dob);
+    user.dob = "Sep 14, 1999";
+    user.photo = "test@domain.com"; // wont work, photo is readonly
+    console.log(user.photo, user.dob);
+
+    console.log(User.makeUser('Azhar', '1992-04-25'));
+
+
+</script>
+</body>
+</html>
