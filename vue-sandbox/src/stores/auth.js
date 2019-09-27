@@ -3,9 +3,17 @@ export default {
     state: {
         isLoggedIn: false,
         token: '',
-        user: null
+        user: null,
+        loggingIn: false,
+        loggingOut: false,
     },
     mutations: {
+        setLoggingIn(state, value) {
+            state.loggingIn = value;
+        },
+        setLoggingOut(state, value) {
+            state.loggingOut = value;
+        },
         setLoggedIn(state, value) {
             state.isLoggedIn = value;
             localStorage.setItem('isLoggedIn', value);
@@ -19,28 +27,27 @@ export default {
             localStorage.setItem('user', JSON.stringify(value));
         },
     },
-    getters: {
-        isLoggedIn() {return localStorage.getItem('isLoggedIn')},
-        token: () => localStorage.getItem('token'),
-        user: () => JSON.parse(localStorage.getItem('user'))
-    },
     actions: {
         login({commit}, user) {
+            commit('setLoggingIn', true);
             return new Promise(resolve => {
                 setTimeout(() => {
                     commit('setUser', user);
                     commit('setToken', "asgj%^dgas65127fy^$fyhjasg908q121");
                     commit('setLoggedIn', true);
+                    commit('setLoggingIn', false);
                     resolve(user);
                 }, 1000);
             });
         },
         logout({commit}) {
+            commit('setLoggingOut', true);
             return new Promise(resolve => {
                 setTimeout(() => {
-                    commit('setUser', null);
+                    commit('setUser', '');
                     commit('setToken', '');
-                    commit('setLoggedIn', false);
+                    commit('setLoggedIn', '');
+                    commit('setLoggingOut', false);
                     resolve("Logged out");
                 }, 1000);
             });

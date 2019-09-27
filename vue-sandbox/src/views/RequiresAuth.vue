@@ -1,15 +1,17 @@
 <template>
-    <div class="authenticated">
+    <v-content>
         <slot></slot>
-    </div>
+    </v-content>
 </template>
 
 <script>
     export default {
         name: "requires-auth",
-        mounted() {
-            if (!this.$store.getters['auth/isLoggedIn']) {
-                this.$router.push('login');
+        watch: {
+            '$store.state.auth.isLoggedIn': function (value) {
+                if (!value) {
+                    this.$router.replace('/');
+                }
             }
         }
     };
