@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES2015 / ES6</title>
+</head>
+<body>
+<script>
+    (async function () {
+        console.log('0. started...');
+        function getValue() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    console.log('1. inside timeout fn');
+                    resolve('your value')
+                }, 1500)
+            })
+        }
+
+        let value = await getValue();
+        console.log('2. got it');
+
+        getValue().then(val => {
+            let value = val;
+            console.log('got it v2-1');
+        });
+        console.log('got it v2-2');
+    })();
+
+</script>
+</body>
+</html>
