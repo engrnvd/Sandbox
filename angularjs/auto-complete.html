@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+    <style>
+        html {
+            font-size: 20px;
+        }
+        .apm-auto-complete {
+            width: 100%;
+            position: relative;
+        }
+
+        .ac-variable-list {
+            box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            position: absolute;
+            background-color: #eef;
+        }
+
+        .ac-item {
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #999;
+            cursor: pointer;
+        }
+
+        .ac-item.selected {
+            background-color: #777;
+            color: white;
+        }
+
+        .ac-item:hover {
+            background-color: #999;
+            color: white;
+        }
+    </style>
+    <script>
+        angular.module('myApp', [])
+            .controller('MyController', MyController)
+            .directive('onEnter', function ($parse) {
+                return function (scope, element, attrs) {
+                    var fn = $parse(attrs.onEnter);
+                    element.bind('keypress', function (event) {
+                        if (event.which == 13) {
+                            if (event.shiftKey) return true;
+                            scope.$apply(function () {
+                                event.preventDefault();
+                                fn(scope, {$event: event});
+                            });
+                        }
+                    });
+                };
+            })
+            .directive('apmAutoComplete', function () {
+                return {
+                    restrict: 'A',
+                    transclude: true,
+                    scope: {
+                        'ngModel': '=',
+                        'acVariables': '=',
+                        'acTrigger': '@',
+                        'acPrefix': '@?',
+                        'acPostfix': '@?',
+                    },
+                    link: function ($scope, $element, $attrs) {
+                        $scope.showVariables = false;
+                        $scope.matchedString = '';
+                        $scope.selectedVariable = '';
+                        var regex = new RegExp("\\$\{?([a-zA-Z]*)$");
+
+                        $element.on('keydown', function (e) {
+                            if ($scope.showVariables) {
+                                var index = $scope.displayVars().indexOf($scope.selectedVariable);
+                                if (e.keyCode == 40) { // down
+                                    index = index + 1;
+                                    if (index >= $scope.displayVars().length) index = 0;
+                                    $scope.$apply(function () {
+                                        $scope.selectedVariable = $scope.displayVars()[index];
+                                    });
+                                }
+                                else if (e.keyCode == 38) { // up
+                                    index = index - 1;
+                                    if (index < 0) index = $scope.displayVars().length - 1;
+                                    $scope.$apply(function () {
+                                        $scope.selectedVariable = $scope.displayVars()[index];
+                                    });
+                                }
+                            }
+                        });
+
+                        $scope.displayVars = function () {
+                            return $scope.acVariables.filter(function (v) {
+                                return v.match($scope.matchedString);
+                            });
+                        };
+
+                        $scope.insert = function () {
+                            $scope.ngModel = $scope.ngModel.replace(regex, '') + $scope.acPrefix + $scope.selectedVariable + $scope.acPostfix;
+                            $element.find('textarea')[0].focus();
+                        };
+
+                        $scope.selectAndInsert = function (variable) {
+                            $scope.selectedVariable = variable;
+                            $scope.insert();
+                        };
+
+                        $scope.$watch('ngModel', function (value) {
+                            if (value) {
+                                var matches = value.match(regex);
+                                $scope.matchedString = matches ? matches[1] : '';
+                                if (matches) {
+                                    $scope.showVariables = true;
+                                } else {
+                                    $scope.showVariables = false;
+                                }
+                            }
+                        });
+                    },
+                    templateUrl: 'apm-auto-complete.html'
+                };
+            })
+        ;
+
+        function MyController($scope) {
+            $scope.text = "asdsadsa$";
+            $scope.vars = [
+                'abc',
+                'def',
+                'ghi',
+                'ag',
+                'bd',
+                'cf',
+                'gah',
+            ];
+        }
+
+    </script>
+</head>
+<body ng-app="myApp" ng-controller="MyController">
+
+<div
+        apm-auto-complete
+        ng-model="text"
+        ac-variables="vars"
+        ac-trigger="$"
+        ac-prefix="${"
+        ac-postfix="}">
+</div>
+
+<pre>{{ text }}</pre>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+<div class="apm-auto-complete">
+    <pre>{{ selectedVariable }}</pre>
+    <pre>{{ ngModel }}</pre>
+    <pre>{{ displayVars() }}</pre>
+    <pre>{{ showVariables }}</pre>
+
+    <textarea ng-model="ngModel" class="form-control" on-enter="insert()"></textarea>
+    <div class="ac-variable-list" ng-if="showVariables">
+        <div class="ac-item"
+             ng-repeat="variable in displayVars()"
+             ng-class="{selected: selectedVariable == variable}"
+             ng-click="selectAndInsert(variable)">{{ variable }}</div>
+    </div>
+</div>
